@@ -1,9 +1,11 @@
 import threading
+import time
 
 from pynput.mouse import Listener
 import tkinter as tk
 from PIL import Image, ImageTk
 import keyboard
+import winreg
 
 # Crear la ventana principal de Tkinter
 root = tk.Tk()
@@ -23,14 +25,13 @@ def startVirus(image_path):
     label = tk.Label(root, image=tk_image)
     label.pack()
 
-    # Definir la función on_click para manejar clics del ratón
     def on_click(x, y, button, pressed):
         if pressed:
             # Actualizar la posición de la ventana en cada clic
-            root.geometry(f"{image.width}x{image.height}+{x}+{y}")
+            root.geometry(f"{image.width}x{image.height}+{x-50}+{y-50}")
             # Hacer la ventana superior sobre todas las demás
             root.attributes('-topmost', True)
-            print("click")
+
 
     def check_key():
         # Verificar periódicamente si la tecla 'e' ha sido presionada
@@ -44,6 +45,8 @@ def startVirus(image_path):
     with Listener(on_click=on_click) as listener:
         #hilo para verificar si se presiona e
         threading.Thread(target=check_key).start()
+        # Evento para interceptar Alt + F4
+
         # Mostrar la ventana y esperar a que el usuario interactúe con ella
         root.mainloop()
 
