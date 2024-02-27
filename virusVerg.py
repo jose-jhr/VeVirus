@@ -1,6 +1,9 @@
+import threading
+
 from pynput.mouse import Listener
 import tkinter as tk
 from PIL import Image, ImageTk
+import keyboard
 
 # Crear la ventana principal de Tkinter
 root = tk.Tk()
@@ -29,10 +32,20 @@ def startVirus(image_path):
             root.attributes('-topmost', True)
             print("click")
 
+    def check_key():
+        # Verificar periódicamente si la tecla 'e' ha sido presionada
+        if keyboard.is_pressed('e'):
+            root.destroy()  # Cerrar la ventana si 'e' está presionada
+        else:
+            # Programar la verificación nuevamente después de 100 milisegundos
+            root.after(100, check_key)
+
     # Iniciar el listener para el clic del ratón
     with Listener(on_click=on_click) as listener:
+        #hilo para verificar si se presiona e
+        threading.Thread(target=check_key).start()
         # Mostrar la ventana y esperar a que el usuario interactúe con ella
         root.mainloop()
 
 # Llamar a la función startVirus con la ruta de la imagen como argumento
-startVirus("../img/pene.png")
+startVirus("img/pene.png")
