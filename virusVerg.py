@@ -7,10 +7,6 @@ root = tk.Tk()
 # Ocultar bordes y barra de título de la ventana
 root.overrideredirect(True)
 
-# Inicializar variables para las posiciones X e Y
-positionX = 0
-positionY = 0
-
 
 # Definir una función llamada startVirus que toma la ruta de una imagen como parámetro
 def startVirus(image_path):
